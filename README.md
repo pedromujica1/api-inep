@@ -131,7 +131,7 @@ from etl.runner import executar_etl
 init_db()
 
 with SessionLocal() as db:
-    executar_etl(db, ano=2003, origem="/caminho/microdados_censo_da_educacao_superior_2003")
+    executar_etl(db, ano=2003, origem="2-dados_brutos")
 ```
 
 ### 2009
@@ -143,7 +143,7 @@ from etl.runner import executar_etl
 init_db()
 
 with SessionLocal() as db:
-    executar_etl(db, ano=2009, origem="/caminho/microdados_censo_da_educacao_superior_2009")
+    executar_etl(db, ano=2009, origem="2-dados_brutos")
 ```
 
 ### 2024
@@ -155,10 +155,19 @@ from etl.runner import executar_etl
 init_db()
 
 with SessionLocal() as db:
-    executar_etl(db, ano=2024, origem="/caminho/microdados_censo_da_educacao_superior_2024")
+    executar_etl(db, ano=2024, origem="2-dados_brutos")
 ```
 
-Para 2003, a pasta informada pode conter os CSVs diretamente ou um subdiretorio `DADOS`. Para 2009 a 2024, deve conter `MICRODADOS_CADASTRO_CURSOS_{ano}.CSV` diretamente ou em um subdiretorio `dados`.
+Como o projeto usa `2-dados_brutos` como pasta padrao dos microdados, tambem e possivel omitir `origem` quando os dados estiverem na raiz do projeto:
+
+```python
+with SessionLocal() as db:
+    executar_etl(db, ano=2003)
+    executar_etl(db, ano=2009)
+    executar_etl(db, ano=2024)
+```
+
+A pasta `2-dados_brutos` deve conter os subdiretorios `microdados-2003`, `microdados-2009` e `microdados-2024`. Para 2003, a pasta do ano pode conter os CSVs diretamente ou um subdiretorio `DADOS`. Para 2009 a 2024, a pasta do ano deve conter `MICRODADOS_CADASTRO_CURSOS_{ano}.CSV` diretamente ou em um subdiretorio `dados`.
 
 ## Direcionamentos pendentes
 

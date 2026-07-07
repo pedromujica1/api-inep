@@ -1,0 +1,4 @@
+.venv
+2-dados_brutos
+__pycache__
+/inep.sqlite3

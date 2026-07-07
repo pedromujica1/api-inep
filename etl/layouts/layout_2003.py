@@ -2,7 +2,7 @@ from pathlib import Path
 
 import polars as pl
 
-from core.config import data_dir_for_year
+from core.config import data_dir_for_year, resolve_data_dir_for_year
 from etl.base import BaseETL
 from etl.layouts.common import garantir_colunas_indicadores, selecionar_colunas_padrao
 from etl.mappings import INDICADORES, MAPPING_2003
@@ -28,7 +28,7 @@ class ETL2003(BaseETL):
         return pl.concat(frames, how="diagonal_relaxed")
 
     def _diretorio_dados(self) -> Path:
-        base = self.origem or data_dir_for_year(self.ano)
+        base = resolve_data_dir_for_year(self.origem, self.ano) if self.origem else data_dir_for_year(self.ano)
         if base.is_dir() and any((base / nome_arquivo).exists() for nome_arquivo in MAPPING_2003):
             return base
         if base.is_dir() and base.name.upper() == "DADOS":

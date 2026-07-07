@@ -2,7 +2,7 @@ from pathlib import Path
 
 import polars as pl
 
-from core.config import data_dir_for_year
+from core.config import data_dir_for_year, resolve_data_dir_for_year
 from etl.base import BaseETL
 from etl.layouts.common import encontrar_diretorio_dados, garantir_colunas_indicadores, selecionar_colunas_padrao
 from etl.mappings import INDICADORES
@@ -32,7 +32,7 @@ class ETLModerno(BaseETL):
         return selecionar_colunas_padrao(df)
 
     def _arquivo_microdados(self) -> Path:
-        base = self.origem or data_dir_for_year(self.ano)
+        base = resolve_data_dir_for_year(self.origem, self.ano) if self.origem else data_dir_for_year(self.ano)
         nomes = [
             f"MICRODADOS_CADASTRO_CURSOS_{self.ano}.CSV",
             f"MICRODADOS_CADASTRO_CURSOS_{self.ano}.csv",
